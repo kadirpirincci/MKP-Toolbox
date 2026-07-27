@@ -1,0 +1,28 @@
+# Python önbelleği ve derlenmiş dosyalar
+__pycache__/
+*.py[cod]
+
+# Pytest önbelleği
+.pytest_cache/
+
+# Sanal ortamlar
+.venv/
+venv/
+env/
+
+# Test kapsamı çıktıları
+.coverage
+htmlcov/
+
+# Paketleme çıktıları
+build/
+dist/
+*.egg-info/
+
+# Yerel ortam ve editör ayarları
+.env
+.vscode/
+
+# İşletim sistemi tarafından oluşturulan dosyalar
+Thumbs.db
+.DS_Store
