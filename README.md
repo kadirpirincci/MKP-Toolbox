@@ -117,6 +117,6 @@ https://github.com/kadirpirincci
 
 ---
 
-## License
+## Project Status
 
 This project is currently developed for educational purposes.
