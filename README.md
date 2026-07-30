@@ -6,6 +6,12 @@ A Python-based electrical engineering calculation tool developed for learning Py
 
 ---
 
+## About
+
+MKP Toolbox is a personal project created to improve Python programming skills while developing practical electrical engineering calculation tools. The project will continue to grow with new engineering modules over time. The goal is to build a comprehensive engineering toolbox with reliable calculations and a clean, modular codebase.
+
+---
+
 ## Features
 
 The current version includes the following calculation modules:
@@ -22,6 +28,7 @@ The current version includes the following calculation modules:
 
 - Python 3.15 beta
 - Pytest
+- VS Code
 - Git
 - GitHub
 
@@ -43,12 +50,6 @@ MKP-Toolbox/
 
 ## Installation
 
-Install the test dependency:
-
-```bash
-python -m pip install pytest
-```
-
 Clone the repository:
 
 ```bash
@@ -59,6 +60,12 @@ Go to the project directory:
 
 ```bash
 cd MKP-Toolbox
+```
+
+Install the required dependency:
+
+```bash
+python -m pip install pytest
 ```
 
 ---
@@ -78,7 +85,7 @@ python main.py
 Execute all unit tests:
 
 ```bash
-pytest
+python -m pytest
 ```
 
 ---
@@ -112,11 +119,10 @@ Planned:
 
 Electrical and Electronics Engineering Student
 
-GitHub:
-https://github.com/kadirpirincci
+GitHub: [kadirpirincci](https://github.com/kadirpirincci)
 
 ---
 
 ## Project Status
 
-This project is currently developed for educational purposes.
+This project is actively under development.
