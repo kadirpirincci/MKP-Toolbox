@@ -127,8 +127,8 @@ def uc_faz_akim_hesabi(
     if gerilim <= 0:
         raise ValueError("Gerilim pozitif olmalıdır.")
 
-    if guc < 0:
-        raise ValueError("Güç negatif olamaz.")
+    if guc <= 0:
+        raise ValueError("Güç pozitif olmalıdır.")
 
     if not (0 < cos_phi <= 1):
         raise ValueError("Güç faktörü 0'dan büyük ve 1'e eşit veya küçük olmalıdır.")
@@ -156,8 +156,8 @@ def uc_faz_gerilim_hesabi(
     if akim <= 0:
         raise ValueError("Akım pozitif olmalıdır.")
 
-    if guc < 0:
-        raise ValueError("Güç negatif olamaz.")
+    if guc <= 0:
+        raise ValueError("Güç pozitif olmalıdır.")
 
     if not (0 < cos_phi <= 1):
         raise ValueError("Güç faktörü 0'dan büyük ve 1'e eşit veya küçük olmalıdır.")
@@ -181,8 +181,8 @@ def uc_faz_cos_phi_hesabi(
     Döndürür:
         float: Güç faktörü
     """
-    if guc < 0:
-        raise ValueError("Güç negatif olamaz.")
+    if guc <= 0:
+        raise ValueError("Güç pozitif olmalıdır.")
 
     if gerilim <= 0:
         raise ValueError("Gerilim pozitif olmalıdır.")
@@ -197,3 +197,92 @@ def uc_faz_cos_phi_hesabi(
             "Girilen değerlerle hesaplanan güç faktörü fiziksel olarak geçerli değildir."
         )
     return cos_phi
+
+
+def tek_faz_gerilim_dusumu_hesabi(
+        ozdirenc: float,
+        uzunluk: float,
+        akim: float,
+        kesit: float
+) -> float:
+    """
+    Tek fazlı sistemde iletkenin özdirenci, uzunluğu, akımı ve kesit alanından gerilim düşümünü hesaplar.
+
+    Parametreler:
+        ozdirenc (float): İletkenin özdirenci (Ω·mm²/m)
+        uzunluk (float): İletkenin uzunluğu (m)
+        akim (float): Akım değeri (A)
+        kesit (float): İletkenin kesit alanı (mm²)
+
+    Döndürür:
+        float: Gerilim düşümü (V)
+    """
+    if ozdirenc <= 0:
+        raise ValueError("Özdirenç pozitif olmalıdır.")
+
+    if uzunluk <= 0:
+        raise ValueError("Uzunluk pozitif olmalıdır.")
+
+    if akim <= 0:
+        raise ValueError("Akım pozitif olmalıdır.")
+
+    if kesit <= 0:
+        raise ValueError("Kesit alanı pozitif olmalıdır.")
+
+    return 2 * ozdirenc * uzunluk * akim / kesit
+
+
+def uc_faz_gerilim_dusumu_hesabi(
+        ozdirenc: float,
+        uzunluk: float,
+        akim: float,
+        kesit: float
+) -> float:
+    """
+    Üç fazlı sistemde iletkenin özdirenci, uzunluğu, akımı ve kesit alanından gerilim düşümünü hesaplar.
+
+    Parametreler:
+        ozdirenc (float): İletkenin özdirenci (Ω·mm²/m)
+        uzunluk (float): İletkenin uzunluğu (m)
+        akim (float): Akım değeri (A)
+        kesit (float): İletkenin kesit alanı (mm²)
+
+    Döndürür:
+        float: Gerilim düşümü (V)
+    """
+    if ozdirenc <= 0:
+        raise ValueError("Özdirenç pozitif olmalıdır.")
+
+    if uzunluk <= 0:
+        raise ValueError("Uzunluk pozitif olmalıdır.")
+
+    if akim <= 0:
+        raise ValueError("Akım pozitif olmalıdır.")
+
+    if kesit <= 0:
+        raise ValueError("Kesit alanı pozitif olmalıdır.")
+
+    return sqrt(3) * ozdirenc * uzunluk * akim / kesit
+
+
+def gerilim_dusumu_yuzdesi_hesabi(
+        gerilim_dusumu: float,
+        sistem_gerilimi: float
+) -> float:
+    """
+    Sistem gerilimi ve gerilim düşümü değerlerinden gerilim düşümü yüzdesini hesaplar.
+
+    Parametreler:
+        gerilim_dusumu (float): Gerilim düşümü (V)
+        sistem_gerilimi (float): Sistem gerilimi (V)
+
+    Döndürür:
+        float: Gerilim düşümü yüzdesi (%)
+    """
+    if gerilim_dusumu < 0:
+        raise ValueError("Gerilim düşümü sıfır veya pozitif olmalıdır.")
+    
+    if sistem_gerilimi <= 0:
+        raise ValueError("Sistem gerilimi pozitif olmalıdır.")
+
+    return (gerilim_dusumu / sistem_gerilimi) * 100

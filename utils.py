@@ -1,10 +1,11 @@
-from typing import Sequence, Callable, Any, Optional
+from typing import Any, Callable, Sequence
 
 
 def sayi_al(mesaj: str) -> float:
     while True:
         try:
-            return float(input(mesaj))
+            metin = input(mesaj).replace(",", ".")
+            return float(metin)
         except ValueError:
             print("Hatalı giriş! Lütfen sayısal bir değer giriniz.")
 
@@ -72,13 +73,15 @@ def ana_menu() -> None:
     print("1 - Güç Hesabı")
     print("2 - Ohm Kanunu")
     print("3 - Enerji Tüketimi")
-    print("4 - Hakkında")
-    print("5 - Çıkış")
+    print("4 - Üç Faz Hesapları")
+    print("5 - Gerilim Düşümü")
+    print("6 - Hakkında")
+    print("7 - Çıkış")
 
 
 def bekle() -> None:
     print()
-    input("Ana menüye dönmek için Enter'a basınız...")
+    input("Devam etmek için Enter'a basınız...")
 
 
 def baslik(isim: str) -> None:
@@ -97,9 +100,20 @@ def sonuc_yazdir(satirlar: Sequence[str]) -> None:
     print("---------------------------------")
 
 
-def hesap_calistir(fonksiyon: Callable[..., Any], *parametreler: Any) -> Optional[Any]:
+def hesap_calistir(
+    fonksiyon: Callable[..., Any],
+    *parametreler: Any,
+) -> Any | None:
+    """
+    Verilen hesap fonksiyonunu çalıştırır.
+    
+    Fonksiyon ValueError oluşturursa hata mesajını kullanıcıya
+    gösterir ve None döndürür.
+    """
     try:
         return fonksiyon(*parametreler)
 
-    except ValueError:
+    except ValueError as hata:
+        print()
+        print(f"Hata: {hata}")
         return None

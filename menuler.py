@@ -7,7 +7,7 @@ from utils import (
     bekle,
     baslik,
     sifirdan_buyuk_bire_esit_sayi_al,
-    sonuc_yazdir
+    sonuc_yazdir,
 )
 
 from hesaplar import (
@@ -19,7 +19,10 @@ from hesaplar import (
     uc_faz_akim_hesabi,
     uc_faz_cos_phi_hesabi,
     uc_faz_gerilim_hesabi,
-    uc_faz_guc_hesabi
+    uc_faz_guc_hesabi,
+    tek_faz_gerilim_dusumu_hesabi,
+    uc_faz_gerilim_dusumu_hesabi,
+    gerilim_dusumu_yuzdesi_hesabi,
 )
 
 
@@ -29,13 +32,14 @@ def guc_modulu() -> None:
     gerilim = sifir_ve_pozitif_sayi_al("Gerilim (V): ")
     akim = sifir_ve_pozitif_sayi_al("Akım (A): ")
 
-    guc = guc_hesabi(gerilim, akim)
+    guc = hesap_calistir(guc_hesabi, gerilim, akim)
 
-    sonuc_yazdir([
-        f"{'Gerilim':15}: {gerilim:.2f} V",
-        f"{'Akım':15}: {akim:.2f} A",
-        f"{'Güç':15}: {guc:.2f} W"
-    ])
+    if guc is not None:
+        sonuc_yazdir([
+            f"{'Gerilim':15}: {gerilim:.2f} V",
+            f"{'Akım':15}: {akim:.2f} A",
+            f"{'Güç':15}: {guc:.2f} W"
+        ])
 
     bekle()
 
@@ -53,13 +57,18 @@ def ohm_modulu() -> None:
         akim = sifir_ve_pozitif_sayi_al("Akım (A): ")
         direnc = sifir_ve_pozitif_sayi_al("Direnç (Ω): ")
 
-        gerilim = gerilim_hesabi(akim, direnc)
+        gerilim = hesap_calistir(
+            gerilim_hesabi,
+            akim,
+            direnc,
+        )
 
-        sonuc_yazdir([
-            f"{'Akım':15}: {akim:.2f} A",
-            f"{'Direnç':15}: {direnc:.2f} Ω",
-            f"{'Sonuç':15}: {gerilim:.2f} V"
-        ])
+        if gerilim is not None:
+            sonuc_yazdir([
+                f"{'Akım':15}: {akim:.2f} A",
+                f"{'Direnç':15}: {direnc:.2f} Ω",
+                f"{'Sonuç':15}: {gerilim:.2f} V"
+            ])
 
     elif ohm_secim == 2:
         gerilim = sifir_ve_pozitif_sayi_al("Gerilim (V): ")
@@ -115,12 +124,17 @@ def enerji_modulu() -> None:
 
     zaman = sifir_ve_pozitif_sayi_al("Çalışma süresi (saat): ")
 
-    enerji = enerji_hesabi(guc_kw, zaman)
+    enerji = hesap_calistir(
+        enerji_hesabi,
+        guc_kw,
+        zaman
+    )
 
-    sonuc_yazdir([
-        f"{'Güç':15}: {guc_kw:.2f} kW",
-        f"{'Çalışma süresi':15}: {zaman:.2f} saat",
-        f"{'Enerji tüketimi':15}: {enerji:.2f} kWh"
+    if enerji is not None:
+        sonuc_yazdir([
+            f"{'Güç':15}: {guc_kw:.2f} kW",
+            f"{'Çalışma süresi':15}: {zaman:.2f} saat",
+            f"{'Enerji tüketimi':15}: {enerji:.2f} kWh"
     ])
 
     bekle()
@@ -260,6 +274,108 @@ def uc_faz_cos_phi_modulu() -> None:
             f"{'Gerilim':15}: {gerilim:.2f} V",
             f"{'Akım':15}: {akim:.2f} A",
             f"{'Güç faktörü':15}: {cos_phi:.2f}"
+        ])
+
+    bekle()
+
+
+def gerilim_dusumu_modulu() -> None:
+    while True:
+        baslik("GERİLİM DÜŞÜMÜ HESABI")
+
+        print("1 - Tek Faz")
+        print("2 - Üç Faz")
+        print("3 - Gerilim Düşümü %")
+        print("4 - Geri")
+
+        secim = secim_al("Seçiminiz: ", [1, 2, 3, 4])
+        if secim == 1:
+            tek_faz_gerilim_dusumu_modulu()
+        elif secim == 2:
+            uc_faz_gerilim_dusumu_modulu()
+        elif secim == 3:
+            gerilim_dusumu_yuzdesi_modulu()
+        elif secim == 4:
+            break
+
+
+def tek_faz_gerilim_dusumu_modulu() -> None:
+    baslik("TEK FAZ GERİLİM DÜŞÜMÜ HESABI")
+
+    ozdirenc = pozitif_sayi_al("Özdirenç (Ω.mm²/m): ")
+    uzunluk = pozitif_sayi_al("Hat uzunluğu (m): ")
+    akim = pozitif_sayi_al("Akım (A): ")
+    kesit = pozitif_sayi_al("İletken kesiti (mm²): ")
+
+    gerilim_dusumu = hesap_calistir(
+        tek_faz_gerilim_dusumu_hesabi,
+        ozdirenc,
+        uzunluk,
+        akim,
+        kesit,
+    )
+
+    if gerilim_dusumu is not None:
+        sonuc_yazdir([
+            f"{'Akım':15}: {akim:.2f} A",
+            f"{'Özdirenç':15}: {ozdirenc:.2f} Ω.mm²/m",
+            f"{'Hat uzunluğu':15}: {uzunluk:.2f} m",
+            f"{'İletken kesiti':15}: {kesit:.2f} mm²",
+            f"{'Gerilim düşümü':15}: {gerilim_dusumu:.2f} V"
+        ])
+
+    bekle()
+
+
+def uc_faz_gerilim_dusumu_modulu() -> None:
+    baslik("ÜÇ FAZ GERİLİM DÜŞÜMÜ HESABI")
+
+    ozdirenc = pozitif_sayi_al("Özdirenç (Ω.mm²/m): ")
+    uzunluk = pozitif_sayi_al("Hat uzunluğu (m): ")
+    akim = pozitif_sayi_al("Akım (A): ")
+    kesit = pozitif_sayi_al("İletken kesiti (mm²): ")
+
+    gerilim_dusumu = hesap_calistir(
+        uc_faz_gerilim_dusumu_hesabi,
+        ozdirenc,
+        uzunluk,
+        akim,
+        kesit,
+    )
+
+    if gerilim_dusumu is not None:
+        sonuc_yazdir([
+            f"{'Akım':15}: {akim:.2f} A",
+            f"{'Özdirenç':15}: {ozdirenc:.2f} Ω.mm²/m",
+            f"{'Hat uzunluğu':15}: {uzunluk:.2f} m",
+            f"{'İletken kesiti':15}: {kesit:.2f} mm²",
+            f"{'Gerilim düşümü':15}: {gerilim_dusumu:.2f} V"
+        ])
+
+    bekle()
+
+
+def gerilim_dusumu_yuzdesi_modulu() -> None:
+    baslik("GERİLİM DÜŞÜMÜ YÜZDESİ HESABI")
+
+    gerilim_dusumu = sifir_ve_pozitif_sayi_al(
+        "Gerilim düşümü (V): "
+        )
+    sistem_gerilimi = pozitif_sayi_al(
+        "Sistem gerilimi (V): "
+    )
+
+    yuzde = hesap_calistir(
+        gerilim_dusumu_yuzdesi_hesabi,
+        gerilim_dusumu,
+        sistem_gerilimi
+    )
+
+    if yuzde is not None:
+        sonuc_yazdir([
+            f"{'Gerilim düşümü':20}: {gerilim_dusumu:.2f} V",
+            f"{'Sistem gerilimi':20}: {sistem_gerilimi:.2f} V",
+            f"{'Düşüm yüzdesi':20}: {yuzde:.2f} %"
         ])
 
     bekle()
