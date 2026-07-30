@@ -30,7 +30,7 @@ The current version includes the following calculation modules:
 ## Project Structure
 
 ```text
-MKP Toolbox/
+MKP-Toolbox/
 │
 ├── main.py
 ├── menuler.py
