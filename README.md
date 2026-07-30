@@ -20,7 +20,7 @@ The current version includes the following calculation modules:
 
 ## Technologies
 
-- Python 3.15
+- Python 3.15 beta
 - Pytest
 - Git
 - GitHub
@@ -42,6 +42,12 @@ MKP-Toolbox/
 ---
 
 ## Installation
+
+Install the test dependency:
+
+```bash
+python -m pip install pytest
+```
 
 Clone the repository:
 
